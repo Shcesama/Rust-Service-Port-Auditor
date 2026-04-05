@@ -2,7 +2,7 @@
 name = "rust-service-port-auditor"
 version = "0.1.0"
 edition = "2024"
-authors = ["Senin Adın"]
+authors = ["Batuhan Seydi Çelik]
 description = "Async network auditor and vulnerability scanner"
 
 [dependencies]

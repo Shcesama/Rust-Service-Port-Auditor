@@ -28,7 +28,7 @@ struct FinalReport {
 }
 
 #[derive(Parser)]
-#[command(name = "RustServiceAuditor", author = "Senin Adın", version = "1.1", about = "Profesyonel Ağ ve Servis Denetçisi")]
+#[command(name = "RustServiceAuditor", author = "Batuhan Seydi Çelik", version = "1.1", about = "Profesyonel Ağ ve Servis Denetçisi")]
 struct Args {
     #[arg(short, long)]
     target: String,
