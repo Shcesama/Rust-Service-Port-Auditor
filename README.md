@@ -25,14 +25,23 @@ Rust ile geliştirilmiş, Tokio tabanlı, yüksek performanslı ve asenkron bir 
 
 ---
 
-## 🎬 Demo
+## 🎬 Kapsamlı Lab Demosu (5 Dakika)
 
-Aşağıdaki kayıtta aracın asenkron çalışma prensibi ve örnek bir zafiyet tarama çıktısı görülmektedir.
+Aşağıdaki kayıtta aracın uçtan uca sızma testi (penetration testing) süreçlerini kapsayan **5 dakikalık** detaylı laboratuvar simülasyonu görülmektedir.
 
-![Demo Scan Record](demo/project-demo.webp)
+![Comprehensive Demo Scan](demo/project-demo.webp)
 
-> [!TIP]
-> Bu demoda yerel ağdaki (127.0.0.1) bir FTP sunucusu taranmış ve "Anonymous Login" zafiyeti tespit edilmiştir. Sistem gerçek zamanlı olarak kritiklik seviyesini raporlamaktadır.
+### Demoda İzlenen Adımlar:
+1. **Lab Kurulumu**: Güvenli test ortamının ve zayıf servislerin (vsFTPd, Apache) ayağa kaldırılması.
+2. **Yardım Menüsü**: Aracın asenkron tarama modlarının ve asistan özelliklerinin gösterimi.
+3. **Gerçek Zamanlı Tarama**: `127.0.0.1` üzerindeki kapıların asenkron olarak taranması.
+4. **Zafiyet Analizi**: Port 21 (FTP) üzerindeki kritik **Anonymous Login** açığının tespiti.
+5. **Exploitation PoC**: Zafiyetin sömürülerek sunucudaki hassas verilere (parola dosyaları vb.) erişimin kanıtlanması.
+6. **Raporlama**: Tarama sonuçlarının `scan_report.json` olarak dışa aktarılması ve içeriğinin incelenmesi.
+7. **Lab Temizliği**: Test ortamının güvenli bir şekilde kapatılması ve verilerin silinmesi.
+
+> [!IMPORTANT]
+> Bu araç yalnızca yetkili olduğunuz sistemlerde veya yerel laboratuvar ortamlarında test amaçlı kullanılmalıdır.
 
 ---
 
