@@ -1,11 +1,9 @@
 <div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/tr/6/69/%C4%B0stinye_%C3%9Cniversitesi_logosu.png" alt="İstinye Üniversitesi Logo" width="250"/>
+  <img src="./logo.jpg" alt="İstinye Üniversitesi Logo" width="250"/>
   <br/>
   <h3>İstinye Üniversitesi</h3>
   <b>Danışman / Eğitmen:</b> Keyvan Arasteh Abbasabad
 </div>
-
-<hr/>
 
 # 🛡️ Rust-Service-Port-Auditor
 
