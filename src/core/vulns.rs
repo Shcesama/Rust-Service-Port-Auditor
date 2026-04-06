@@ -1,6 +1,6 @@
-use tokio::net::TcpStream;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
-use tokio::time::{timeout, Duration};
+use tokio::net::TcpStream;
+use tokio::time::{Duration, timeout};
 
 // FTP Anonim Giriş Analizi
 pub async fn test_ftp_anonymous(mut stream: TcpStream) -> bool {
@@ -8,7 +8,7 @@ pub async fn test_ftp_anonymous(mut stream: TcpStream) -> bool {
     let _ = stream.write_all(b"USER anonymous\r\n").await;
     let _ = timeout(Duration::from_secs(1), stream.read(&mut buffer)).await;
     let _ = stream.write_all(b"PASS guest@example.com\r\n").await;
-    
+    // TODO: Zaman aşımı süresi dışarıdan parametre olarak alınacak.
     if let Ok(Ok(n)) = timeout(Duration::from_secs(2), stream.read(&mut buffer)).await {
         let res = String::from_utf8_lossy(&buffer[..n]);
         return res.contains("230");

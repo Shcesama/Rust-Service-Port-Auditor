@@ -81,7 +81,7 @@ async fn main() {
         scan_time: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
         results: final_results.clone(),
     };
-
+    // FIXME: Konsol çıktıları çok yoğun olduğunda dosyaya yazma performansı düşüyor, optimize edilecek.
     let json_data = match serde_json::to_string_pretty(&report) {
         Ok(veri) => veri,
         Err(hata) => {
