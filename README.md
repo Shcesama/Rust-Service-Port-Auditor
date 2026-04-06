@@ -1,4 +1,4 @@
-<<div align="center">
+<div align="center">
   <img src="./logo.jpg" alt="İstinye Üniversitesi Logo" width="250"/>
   <br/>
   <h3>İstinye Üniversitesi</h3>
