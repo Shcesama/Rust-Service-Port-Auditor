@@ -2,7 +2,13 @@ use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 use tokio::time::{Duration, timeout};
 
-// FTP Anonim Giriş Analizi
+/// FTP servisine şifresiz ve isimsiz (anonymous) olarak giriş yapılıp yapılamadığını kontrol eder.
+///
+/// # Argümanlar
+/// * `stream` - Karşı sistemle kurulan aktif TCP bağlantısı.
+///
+/// # Dönüş Değeri
+/// * Eğer isimsiz giriş başarılı olursa `true`, aksi halde `false` döndürür.
 pub async fn test_ftp_anonymous(mut stream: TcpStream) -> bool {
     let mut buffer = [0; 512];
     let _ = stream.write_all(b"USER anonymous\r\n").await;

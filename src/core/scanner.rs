@@ -2,7 +2,11 @@ use colored::*;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 use tokio::time::{Duration, timeout};
-
+/// Açık olan bir bağlantı noktasına veri göndererek arkasında çalışan yazılımın bilgisini (banner) almaya çalışır.
+///
+/// # Argümanlar
+/// * `stream` - Karşı sistemle kurulan aktif TCP bağlantısı.
+/// * `port` - Kontrol edilen bağlantı noktası numarası.
 pub async fn probe_service(mut stream: TcpStream, port: u16) {
     let mut buffer = [0; 1024];
 

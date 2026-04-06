@@ -145,6 +145,13 @@ async fn check_port_wrapper(
         core::scanner::probe_service(stream, port).await;
     }
 }
+/// Kullanıcının girdiği metin tabanlı kapı (port) numaralarını işler ve bir sayı listesine dönüştürür.
+///
+/// # Argümanlar
+/// * `ports_input` - Virgülle veya tire ile ayrılmış sayıları içeren metin (örneğin: "80,443" veya "20-25").
+///
+/// # Dönüş Değeri
+/// * Geçerli sayıları içeren bir `Vec<u16>` listesi döndürür.
 pub fn parse_ports(ports_input: &str) -> Vec<u16> {
     let mut port_list = Vec::new();
     for part in ports_input.split(',') {
