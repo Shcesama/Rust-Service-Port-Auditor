@@ -1,17 +1,15 @@
-mod scanner;
-mod vulns;
+mod core;
 
-use serde::Serialize;
 use chrono::Local;
-use std::fs::File;
-use std::io::Write;
-use tokio::sync::Semaphore;
-use std::net::IpAddr;
-use std::sync::{Arc, Mutex}; // Mutex ekledik
+use clap::Parser;
 use colored::*;
 use futures::stream::{self, StreamExt};
-use clap::Parser;
-
+use serde::Serialize;
+use std::fs::File;
+use std::io::Write;
+use std::net::IpAddr;
+use std::sync::{Arc, Mutex}; // Mutex ekledik
+use tokio::sync::Semaphore;
 
 #[derive(Serialize, Clone)]
 
@@ -28,7 +26,12 @@ struct FinalReport {
 }
 
 #[derive(Parser)]
-#[command(name = "RustServiceAuditor", author = "Batuhan Seydi Çelik", version = "1.1", about = "Profesyonel Ağ ve Servis Denetçisi")]
+#[command(
+    name = "RustServiceAuditor",
+    author = "Batuhan Seydi Çelik",
+    version = "1.1",
+    about = "Profesyonel Ağ ve Servis Denetçisi"
+)]
 struct Args {
     #[arg(short, long)]
     target: String,
@@ -48,7 +51,7 @@ async fn main() {
             return;
         }
     };
-    
+
     let mut port_list = Vec::new();
     for part in args.ports.split(',') {
         if part.contains('-') {
@@ -56,7 +59,9 @@ async fn main() {
             if range.len() == 2 {
                 let start: u16 = range[0].parse().unwrap_or(0);
                 let end: u16 = range[1].parse().unwrap_or(0);
-                for p in start..=end { port_list.push(p); }
+                for p in start..=end {
+                    port_list.push(p);
+                }
             }
         } else if let Ok(p) = part.trim().parse::<u16>() {
             port_list.push(p);
@@ -67,8 +72,12 @@ async fn main() {
     let scan_results = Arc::new(Mutex::new(Vec::new()));
     let semaphore = Arc::new(Semaphore::new(args.concurrent));
 
-    println!("{} {} üzerinde denetim başlatıldı...", "[*]".blue().bold(), target_ip);
-    
+    println!(
+        "{} {} üzerinde denetim başlatıldı...",
+        "[*]".blue().bold(),
+        target_ip
+    );
+
     stream::iter(port_list)
         .for_each_concurrent(None, |port| {
             let sem = Arc::clone(&semaphore);
@@ -91,25 +100,47 @@ async fn main() {
     let mut file = File::create("scan_report.json").expect("Dosya oluşturulamadı");
     file.write_all(json_data.as_bytes()).expect("Yazma hatası");
 
-    println!("\n{} Denetim bitti. Rapor: {}", "[*]".blue().bold(), "scan_report.json".cyan());
+    println!(
+        "\n{} Denetim bitti. Rapor: {}",
+        "[*]".blue().bold(),
+        "scan_report.json".cyan()
+    );
 }
 
-async fn check_port_wrapper(ip: IpAddr, port: u16, semaphore: Arc<Semaphore>, results: Arc<Mutex<Vec<ScanResult>>>) {
+async fn check_port_wrapper(
+    ip: IpAddr,
+    port: u16,
+    semaphore: Arc<Semaphore>,
+    results: Arc<Mutex<Vec<ScanResult>>>,
+) {
     let _permit = match semaphore.acquire().await {
         Ok(p) => p,
         Err(_) => return,
     };
-    
+
     let addr = std::net::SocketAddr::new(ip, port);
-    if let Ok(Ok(stream)) = tokio::time::timeout(tokio::time::Duration::from_millis(1000), tokio::net::TcpStream::connect(&addr)).await {
-        println!("{} Port {:>5} {}", "[+]".green().bold(), port, "AÇIK".green());
-        
+    if let Ok(Ok(stream)) = tokio::time::timeout(
+        tokio::time::Duration::from_millis(1000),
+        tokio::net::TcpStream::connect(&addr),
+    )
+    .await
+    {
+        println!(
+            "{} Port {:>5} {}",
+            "[+]".green().bold(),
+            port,
+            "AÇIK".green()
+        );
+
         // Sonucu listeye ekle
         {
             let mut res = results.lock().unwrap();
-            res.push(ScanResult { port, status: "Açık".to_string() });
+            res.push(ScanResult {
+                port,
+                status: "Açık".to_string(),
+            });
         }
-        
-        scanner::probe_service(stream, port).await;
+
+        core::scanner::probe_service(stream, port).await;
     }
 }
