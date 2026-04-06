@@ -17,9 +17,6 @@
 
 Rust ile geliştirilmiş, Tokio tabanlı, yüksek performanslı ve asenkron bir ağ denetim aracıdır. Bu proje, ağ üzerindeki açık portları tespit etmenin ötesine geçerek servis analizi ve zafiyet taraması gerçekleştirir.
 
-## 📋 İçindekiler
-- [Öne Çıkan Özellikler](#-öne-çıkan-özellikler)
-- [Kurulum ve Kullanım](#-kurulum-ve-kullanım)
 
 ## 📋 İçindekiler
 - [Öne Çıkan Özellikler](#-öne-çıkan-özellikler)
